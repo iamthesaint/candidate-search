@@ -1,8 +1,11 @@
 
+console.log('Environment Variables:', import.meta.env);
+
 const searchGithub = async () => {
   try {
     const start = Math.floor(Math.random() * 100000000) + 1;
-    console.log(import.meta.env);
+    const token = import.meta.env.VITE_GITHUB_TOKEN;
+    console.log('Token:', token);
     const response = await fetch(
       `https://api.github.com/users?since=${start}`,
       {
