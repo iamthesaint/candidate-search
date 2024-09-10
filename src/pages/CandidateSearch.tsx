@@ -7,13 +7,13 @@ const CandidateSearch = () => {
   const [candidates, setCandidates] = useState<Candidate[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // fetch random GitHub users
+  // fetch random gh users
   useEffect(() => {
     const fetchCandidates = async () => {
       setLoading(true);
       const randomCandidates = await searchGithub();
 
-      // fetch full details for each user
+      // fetch more details
       const detailedCandidates = await Promise.all(
         randomCandidates.map(async (candidate: Candidate) => {
           const details = await searchGithubUser(candidate.login);
@@ -28,12 +28,12 @@ const CandidateSearch = () => {
     fetchCandidates();
   }, []);
 
-  // Skip candidate
+  // skip candidate
   const handleSkipCandidate = () => {
     setCandidates(candidates.slice(1));
   };
 
-  // Save candidate to potentials
+  // save candidate to pot
   const handleSaveCandidate = (candidate: Candidate) => {
     try {
       const savedCandidates = JSON.parse(
@@ -56,35 +56,39 @@ const CandidateSearch = () => {
     <div className="candidate-search-container">
       <h1>Candidate Search</h1>
       {candidates.length > 0 ? (
-        <div className="candidate-card">
-          <div className="avatar-container">
-            <img
-              src={candidates[0].avatar_url}
-              alt={candidates[0].login}
-              className="candidate-avatar"
-            />
+        <>
+          <div className="candidate-card">
+            <div className="avatar-container">
+              <img
+                src={candidates[0].avatar_url}
+                alt={candidates[0].login}
+                className="candidate-avatar"
+              />
+            </div>
+            <div className="card-content">
+              <h2>{candidates[0].name || candidates[0].login}</h2>
+              <p>
+                <strong>Username:</strong> {candidates[0].login}
+              </p>
+              <p>
+                <strong>Location:</strong>{" "}
+                {candidates[0].location || "Location not provided"}
+              </p>
+              <p>
+                <strong>Email:</strong>{" "}
+                {candidates[0].email || "Email not provided"}
+              </p>
+              <p>
+                <strong>Company:</strong>{" "}
+                {candidates[0].company || "Company not provided"}
+              </p>
+              <p>
+                <strong>Bio:</strong> {candidates[0].bio || "Bio not provided"}
+              </p>
+            </div>
           </div>
-          <div className="card-content">
-            <h2>{candidates[0].name || candidates[0].login}</h2>
-            <p>
-              <strong>Username:</strong> {candidates[0].login}
-            </p>
-            <p>
-              <strong>Location:</strong>{" "}
-              {candidates[0].location || "Location not provided"}
-            </p>
-            <p>
-              <strong>Email:</strong>{" "}
-              {candidates[0].email || "Email not provided"}
-            </p>
-            <p>
-              <strong>Company:</strong>{" "}
-              {candidates[0].company || "Company not provided"}
-            </p>
-            <p>
-              <strong>Bio:</strong> {candidates[0].bio || "Bio not provided"}
-            </p>
-          </div>
+
+          {/* Buttons below the card */}
           <div className="card-buttons">
             <button
               onClick={() => handleSaveCandidate(candidates[0])}
@@ -96,9 +100,10 @@ const CandidateSearch = () => {
               <FaCircleMinus />
             </button>
           </div>
-        </div>
+        </>
       ) : (
-        <h3 className="end-msg" style={{ textAlign: "center" }}>You've reached the end!
+        <h3 className="end-msg" style={{ textAlign: "center" }}>
+          You've reached the end!
           <br />
           To view more candidates, please refresh the page.
         </h3>

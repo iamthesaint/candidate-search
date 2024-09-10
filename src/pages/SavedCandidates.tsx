@@ -9,9 +9,10 @@ const SavedCandidates = () => {
   const [error, setError] = useState<string | null>(null);
   const [sortCriteria, setSortCriteria] = useState('name');
   const [sortDirection, setSortDirection] = useState('asc');
+  const [filterCriteria, setFilterCriteria] = useState<string>('all');
 
   useEffect(() => {
-    // Fetch the saved candidates from the API
+    // fetch the saved candidates from local storage
     const fetchSavedCandidates = async () => {
       const savedCandidateData = JSON.parse(
         localStorage.getItem("savedCandidates") || "[]"
@@ -72,22 +73,43 @@ const SavedCandidates = () => {
     setSavedCandidates(sortedCandidates);
   };
 
-  // fx to render the sort icon so the user knows it's an option
-  const renderSortIcon = (criteria: string) => {
-    if (sortCriteria === criteria) {
-      return sortDirection === 'asc' ? <FaSortAlphaUp /> : <FaSortAlphaDown />;
-    }
-    return null;
+    // fx to render the sort icon so the user knows it's an option
+    const renderSortIcon = (criteria: string) => {
+      if (sortCriteria === criteria) {
+        return sortDirection === 'asc' ? <FaSortAlphaUp /> : <FaSortAlphaDown />;
+      }
+      return null;
+    };
+
+  // fx to filter the saved candidates
+  const filterSavedCandidates = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setFilterCriteria(event.target.value);
   };
+
+  const filteredCandidates = savedCandidates.filter((candidate) => {
+    if (filterCriteria === 'all') {
+      return true;
+    }
+    return candidate[filterCriteria] !== undefined && candidate[filterCriteria] !== '';
+  });
 
   return (
     <div>
       <h1>Potential Candidates</h1>
+      <div className="filter-container">
+        <label htmlFor="filter">Filter by: </label>
+        <select id="filter" value={filterCriteria} onChange={filterSavedCandidates}>
+          <option value="all">All</option>
+          <option value="location">Location</option>
+          <option value="company">Company</option>
+        </select>
+      </div>
+
       {loading ? (
         <p>Loading...</p>
       ) : error ? (
         <p>{error}</p>
-      ) : savedCandidates.length > 0 ? (
+      ) : filteredCandidates.length > 0 ? (
         <table className="table">
           <thead>
             <tr>
@@ -101,7 +123,7 @@ const SavedCandidates = () => {
             </tr>
           </thead>
           <tbody>
-            {savedCandidates.map((candidate) => (
+            {filteredCandidates.map((candidate) => (
               <tr key={candidate.login}>
                 <td>
                   <img

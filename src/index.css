@@ -136,6 +136,10 @@ tbody tr:nth-child(odd) {
 
 td {
   padding: 10px;
+  white-space: nowrap; /* Prevent long unwrapped text */
+  overflow: hidden; /* Hide overflow text */
+  text-overflow: ellipsis; /* Add ellipsis for overflow text */
+  max-width: 150px;
 }
 
 .nav {
@@ -161,6 +165,7 @@ td {
 .candidate-search-container {
   display: flex;
   flex-direction: column;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: center;
   position: relative;
@@ -169,13 +174,14 @@ td {
 
 .candidate-card {
   width: 350px;
-  height: 500px;
-  /* display: flex;
+  height: 550px;
+  display: flex;
   flex-direction: column;
-  align-items: center; */
+  align-items: center;
   border-radius: 10px;
   background-color: #000;
   position: relative;
+  overflow: hidden;
 }
 
 .card-content {
@@ -183,9 +189,11 @@ td {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  line-height: 0.5;
+  /* line-height: 0.5; */
   padding: 20px;
   position: relative;
+  max-height: 250px;
+  overflow-y: auto;
 
 }
 
@@ -203,6 +211,7 @@ img {
   object-fit: cover;
   border-radius: 10px 10px 0 0;
   margin: 0px;
+  max-height: 250px;
 }
 
 .table-avatar {
@@ -263,4 +272,25 @@ img {
 .remove-button:hover {
   transform: scale(1.1);
   color: darkred;
+}
+
+.filter-container {
+  margin-bottom: 20px;
+}
+
+.filter-container label {
+  margin: 10px;
+  font-family: "Bebas Neue", system-ui;
+  font-size: 1.5em;
+  line-height: 1.5;
+  letter-spacing: 1px;
+  font-weight: 200;
+}
+
+.filter-container select {
+  padding: 5px;
+  font-size: 16px;
+  background-color: #000;
+  width: fit-content;
+  padding-right: 10px;
 }
