@@ -49,7 +49,7 @@ const CandidateSearch = () => {
   };
 
   if (loading) {
-    return <p>Loading candidates...</p>;
+    return <h2>Loading candidates...</h2>;
   }
 
   return (
@@ -99,7 +99,10 @@ const CandidateSearch = () => {
           </div>
         </div>
       ) : (
-        <p>No more candidates available</p>
+        <h3 className="end-msg" style={{ textAlign: "center" }}>You've reached the end!
+          <br />
+          To view more candidates, please refresh the page.
+        </h3>
       )}
     </div>
   );
