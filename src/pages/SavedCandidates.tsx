@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
-import { searchGithubUser } from '../api/API';
-import Candidate from '../interfaces/Candidate.interface';
+import { useState, useEffect } from "react";
+import { searchGithubUser } from "../api/API";
+import Candidate from "../interfaces/Candidate.interface";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 const SavedCandidates = () => {
   const [savedCandidates, setSavedCandidates] = useState<Candidate[]>([]);
@@ -10,7 +11,9 @@ const SavedCandidates = () => {
   useEffect(() => {
     // Fetch the saved candidates from the API
     const fetchSavedCandidates = async () => {
-      const savedCandidateData = JSON.parse(localStorage.getItem('savedCandidates') || '[]');
+      const savedCandidateData = JSON.parse(
+        localStorage.getItem("savedCandidates") || "[]"
+      );
       const updatedCandidates: Candidate[] = [];
       setLoading(true);
 
@@ -23,21 +26,22 @@ const SavedCandidates = () => {
         }
         setSavedCandidates(updatedCandidates);
       } catch (error) {
-        setError('Error fetching saved candidates');
+        setError("Error fetching saved candidates");
       } finally {
         setLoading(false);
       }
     };
 
     fetchSavedCandidates();
-
   }, []);
 
   // fx to remove a candidate from the saved list
   const removeSavedCandidate = (login: string) => {
-    const updatedCandidates = savedCandidates.filter((candidate) => candidate.login !== login);
+    const updatedCandidates = savedCandidates.filter(
+      (candidate) => candidate.login !== login
+    );
     setSavedCandidates(updatedCandidates);
-    localStorage.setItem('savedCandidates', JSON.stringify(updatedCandidates));
+    localStorage.setItem("savedCandidates", JSON.stringify(updatedCandidates));
   };
 
   return (
@@ -48,7 +52,7 @@ const SavedCandidates = () => {
       ) : error ? (
         <p>{error}</p>
       ) : savedCandidates.length > 0 ? (
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <table className="table">
           <thead>
             <tr>
               <th>Image</th>
@@ -64,21 +68,27 @@ const SavedCandidates = () => {
             {savedCandidates.map((candidate) => (
               <tr key={candidate.login}>
                 <td>
-                  <img src={candidate.avatar_url} alt={candidate.login} style={{ width: '50px', borderRadius: '50%' }} />
+                  <img
+                    src={candidate.avatar_url}
+                    alt={candidate.login}
+                    style={{ width: "150px", height: "150px", border: "1px solid #ccc" }}
+                  />
                 </td>
                 <td>
                   <a href={candidate.html_url} target="_blank" rel="noreferrer">
                     {candidate.name || candidate.login}
                   </a>
                 </td>
-                <td>{candidate.location || 'Location not available'}</td>
-                <td>{candidate.email || 'Email not available'}</td>
-                <td>{candidate.company || 'Company not available'}</td>
-                <td>{candidate.bio || 'Bio not available'}</td>
+                <td>{candidate.location || "Location not provided"}</td>
+                <td>{candidate.email || "Email not provided"}</td>
+                <td>{candidate.company || "Company not provided"}</td>
+                <td>{candidate.bio || "Bio not provided"}</td>
                 <td>
-                  {/* reject button */}
-                  <button onClick={() => removeSavedCandidate(candidate.login)} style={{ backgroundColor: 'red', color: 'white' }}>
-                    - Reject
+                  <button
+                    onClick={() => removeSavedCandidate(candidate.login)}
+                    className="remove-button"
+                  >
+                    <FaRegTrashAlt />
                   </button>
                 </td>
               </tr>
@@ -90,6 +100,6 @@ const SavedCandidates = () => {
       )}
     </div>
   );
-}
+};
 
 export default SavedCandidates;

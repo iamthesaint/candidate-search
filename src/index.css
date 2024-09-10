@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap");
 
 :root {
-  font-family: 'Inter Tight', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Inter Tight", system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
-  font-weight: 400;
+  font-weight: 300;
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
@@ -15,6 +15,7 @@
 
 a {
   font-weight: 500;
+  font-size: 1.2em;
   color: #646cff;
   text-decoration: inherit;
 }
@@ -32,7 +33,8 @@ body {
   background-size: cover;
   background-repeat: no-repeat no-repeat;
   background-position: center center;
-  margin: 0;
+  margin-top: 20px;
+  margin-bottom: 200px;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
@@ -40,26 +42,10 @@ body {
 
 h1 {
   font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
   font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  line-height: 1.1;
+  display: flex;
+  justify-content: center;
 }
 
 @media (prefers-color-scheme: light) {
@@ -88,6 +74,8 @@ tr {
   border-radius: 10px;
   background-color: #000;
   color: white;
+  text-align: center;
+  font-size: medium;
 }
 
 tbody tr:nth-child(odd) {
@@ -116,5 +104,89 @@ tbody tr:nth-child(odd) {
 
 .table {
   width: 80vw;
-  table-layout: fixed;
+  table-layout: auto;
+}
+
+.candidate-search-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.candidate-card {
+  width: 400px;
+  height: 650px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #000;
+  object-fit: contain;
+}
+
+.avatar-container {
+  width: 100%;
+  height: 300px;
+  overflow: visible;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  margin: 10px;
+}
+
+.card-content {
+  height: 300px;
+  text-align: left;
+  font-size: 20px;
+}
+
+.card-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+
+.plus,
+.minus,
+.remove-button {
+  cursor: pointer;
+  width: 200px;
+  height: 200px;
+  font-size: 6em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+}
+
+.plus {
+  color: green;
+  transition: transform 0.2s, color 0.2s;
+}
+
+.plus:hover {
+  transform: scale(1.1);
+  color: darkgreen;
+}
+
+.minus,
+.remove-button {
+  color: red;
+  transition: transform 0.2s, color 0.2s;
+}
+
+.minus:hover,
+.remove-button:hover {
+  transform: scale(1.1);
+  color: darkred;
 }
