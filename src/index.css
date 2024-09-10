@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap");
 
 :root {
   font-family: "Inter Tight", system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -43,10 +43,11 @@ body {
 h1 {
   font-family: "Bebas Neue", system-ui;
   letter-spacing: 1px;
-  font-size: 4em;
+  font-size: 3em;
   font-weight: 400;
   display: flex;
   justify-content: center;
+  margin: 0;
 }
 
 h2 {
@@ -91,16 +92,50 @@ main {
   align-items: center;
 }
 
+table {
+  width: 97%;
+  margin: 0;
+  border-radius: 10px;
+  overflow-wrap: break-word;
+}
+
+thead {
+  background-color: #000;
+  color: white;
+  height: 50px;
+  width: 100%;
+  padding: 15px;
+}
+
+th {
+  font-family: "Bebas Neue", system-ui;
+  font-size: 1.5em;
+}
+
+th.sortable {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+th.sortable:hover {
+  color: #007bff; /* Changes color on hover */
+}
+
 tr {
   border-radius: 10px;
   background-color: #000;
   color: white;
   text-align: center;
+  vertical-align: middle;
   font-size: medium;
 }
 
 tbody tr:nth-child(odd) {
   background-color: #333333;
+}
+
+td {
+  padding: 10px;
 }
 
 .nav {
@@ -123,65 +158,68 @@ tbody tr:nth-child(odd) {
   font-weight: 700;
 }
 
-.table {
-  width: 80vw;
-  table-layout: auto;
-}
-
 .candidate-search-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
+  margin-top: 0;
 }
 
 .candidate-card {
-  width: 400px;
-  height: 650px;
+  width: 350px;
+  height: 500px;
+  /* display: flex;
+  flex-direction: column;
+  align-items: center; */
+  border-radius: 10px;
+  background-color: #000;
+  position: relative;
+}
+
+.card-content {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  line-height: 0.5;
   padding: 20px;
-  border-radius: 10px;
-  background-color: #000;
-  object-fit: contain;
+  position: relative;
+
 }
 
 .avatar-container {
   width: 100%;
-  height: 300px;
+  height: 250px;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: visible;
+  margin: 0;
+  padding: 0;
 }
 
 img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 10px;
-  border: 5px solid #fff;
-  margin: 10px;
+  border-radius: 10px 10px 0 0;
+  margin: 0px;
 }
 
-.card-content {
-  height: 300px;
-  text-align: left;
-  font-size: 20px;
+.table-avatar {
+  object-fit: cover;
+  border-radius: 50%;
+  border: 5px solid #fff;
 }
 
 .card-buttons {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  margin-top: 50px;
   margin-bottom: 20px;
 }
 
 .plus,
-.minus,
-.remove-button {
+.minus {
   cursor: pointer;
   width: 200px;
   height: 200px;
@@ -204,10 +242,21 @@ img {
   color: darkgreen;
 }
 
-.minus,
+.minus {
+  color: red;
+  transition: transform 0.2s, color 0.2s;
+}
+
 .remove-button {
   color: red;
   transition: transform 0.2s, color 0.2s;
+  cursor: pointer;
+  width: 100px;
+  height: 100px;
+  font-size: 4em;
+  background-color: transparent;
+  border: none;
+  padding: 0;
 }
 
 .minus:hover,

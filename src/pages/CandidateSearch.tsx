@@ -84,7 +84,6 @@ const CandidateSearch = () => {
             <p>
               <strong>Bio:</strong> {candidates[0].bio || "Bio not provided"}
             </p>
-            <br />
           </div>
           <div className="card-buttons">
             <button

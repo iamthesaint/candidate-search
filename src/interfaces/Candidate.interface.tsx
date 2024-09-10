@@ -1,14 +1,15 @@
 // TODO: Create an interface for the Candidate objects returned by the API
 
 interface Candidate {
-  avatar_url: string; // image url
-  name?: string; // name
-  login: string; // username
-  location?: string; // location
-  email?: string; // email
-  html_url: string; // github profile url
-  company?: string; // company
-  bio?: string; // bio
+  avatar_url: string;
+  name?: string;
+  login: string;
+  location?: string;
+  email?: string;
+  html_url: string;
+  company?: string;
+  bio?: string;
+  [key: string]: any; // index signature
 }
 
 

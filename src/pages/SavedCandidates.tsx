@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { searchGithubUser } from "../api/API";
 import Candidate from "../interfaces/Candidate.interface";
-import { FaRegTrashAlt } from "react-icons/fa";
+import { FaRegTrashAlt, FaSortAlphaUp, FaSortAlphaDown } from "react-icons/fa";
 
 const SavedCandidates = () => {
   const [savedCandidates, setSavedCandidates] = useState<Candidate[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [sortCriteria, setSortCriteria] = useState('name');
+  const [sortDirection, setSortDirection] = useState('asc');
 
   useEffect(() => {
     // Fetch the saved candidates from the API
@@ -44,6 +46,40 @@ const SavedCandidates = () => {
     localStorage.setItem("savedCandidates", JSON.stringify(updatedCandidates));
   };
 
+  // fx to sort the saved candidates
+  const sortSavedCandidates = (criteria: string) => {
+    const direction = sortCriteria === criteria && sortDirection === 'asc' ? 'desc' : 'asc';
+    setSortCriteria(criteria);
+    setSortDirection(direction);
+
+    const sortedCandidates = [...savedCandidates].sort((a, b) => {
+      let valueA = '';
+      let valueB = '';
+  
+      if (criteria === 'name') {
+        valueA = (a.name || a.login || '').toLowerCase();
+        valueB = (b.name || b.login || '').toLowerCase();
+      } else {
+        valueA = (a[criteria] || '').toString().toLowerCase();
+        valueB = (b[criteria] || '').toString().toLowerCase();
+      }
+  
+      if (valueA < valueB) return direction === 'asc' ? -1 : 1;
+      if (valueA > valueB) return direction === 'asc' ? 1 : -1;
+      return 0;
+    });
+
+    setSavedCandidates(sortedCandidates);
+  };
+
+  // fx to render the sort icon so the user knows it's an option
+  const renderSortIcon = (criteria: string) => {
+    if (sortCriteria === criteria) {
+      return sortDirection === 'asc' ? <FaSortAlphaUp /> : <FaSortAlphaDown />;
+    }
+    return null;
+  };
+
   return (
     <div>
       <h1>Potential Candidates</h1>
@@ -56,10 +92,10 @@ const SavedCandidates = () => {
           <thead>
             <tr>
               <th>Image</th>
-              <th>Name/Username</th>
-              <th>Location</th>
+              <th className="sortable" onClick={() => sortSavedCandidates('name')}>Name/Login {renderSortIcon('name')}</th>
+              <th className="sortable" onClick={() => sortSavedCandidates('location')}>Location {renderSortIcon('location')}</th>
               <th>Email</th>
-              <th>Company</th>
+              <th className="sortable" onClick={() => sortSavedCandidates('company')}>Company {renderSortIcon('company')}</th>
               <th>Bio</th>
               <th>Reject</th>
             </tr>
@@ -69,9 +105,10 @@ const SavedCandidates = () => {
               <tr key={candidate.login}>
                 <td>
                   <img
+                    className="table-avatar"
                     src={candidate.avatar_url}
                     alt={candidate.login}
-                    style={{ width: "150px", height: "150px", border: "1px solid #ccc" }}
+                    style={{ width: "100px", height: "100px", border: "1px solid #ccc" }}
                   />
                 </td>
                 <td>
@@ -96,7 +133,7 @@ const SavedCandidates = () => {
           </tbody>
         </table>
       ) : (
-        <p>No saved candidates...</p>
+        <h3>No saved candidates yet...</h3>
       )}
     </div>
   );
