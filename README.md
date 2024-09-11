@@ -14,7 +14,7 @@ Candidate search allows individuals or companies to search the database of GitHu
 Candidate Search leverages a GitHub fine-grained access token to utilize the GitHub API utilizing React/Vite for front-end development.
 
 ## Usage
-```npm run dev```
+```npm run start```
 
 <img width="1234" alt="candidate-search-home" src="https://github.com/user-attachments/assets/6c1c8716-0e1a-4667-b053-d0bd90abd386">
 
