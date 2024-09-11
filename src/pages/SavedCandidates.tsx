@@ -112,16 +112,16 @@ const SavedCandidates = () => {
           <option value="location">Location</option>
           <option value="company">Company</option>
         </select>
-      {(filterCriteria === "location" || filterCriteria === "company") && (
-        <input
-          type="text"
-          className="filter-input"
-          placeholder={`Enter ${filterCriteria}...`}
-          value={filterValue}
-          onChange={(e) => setFilterValue(e.target.value)}
-        />
-      )}
-      </div>  
+        {(filterCriteria === "location" || filterCriteria === "company") && (
+          <input
+            type="text"
+            className="filter-input"
+            placeholder={`Enter ${filterCriteria}...`}
+            value={filterValue}
+            onChange={(e) => setFilterValue(e.target.value)}
+          />
+        )}
+      </div>
 
       {loading ? (
         <h1 className="load">Loading...</h1>

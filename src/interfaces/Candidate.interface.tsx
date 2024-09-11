@@ -12,5 +12,4 @@ interface Candidate {
   [key: string]: any; // index signature
 }
 
-
 export default Candidate;
