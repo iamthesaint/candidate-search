@@ -16,6 +16,11 @@ Candidate Search leverages a GitHub fine-grained access token to utilize the Git
 ## Usage
 ```npm run dev```
 
+<img width="1234" alt="candidate-search-home" src="https://github.com/user-attachments/assets/6c1c8716-0e1a-4667-b053-d0bd90abd386">
+
+<img width="1415" alt="candidate-search-potential" src="https://github.com/user-attachments/assets/c5ab1e74-c584-4b10-b48c-b57686db78fe">
+
+
 ## License
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
