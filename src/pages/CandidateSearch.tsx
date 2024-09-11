@@ -62,11 +62,13 @@ const CandidateSearch = () => {
               <img
                 src={candidates[0].avatar_url}
                 alt={candidates[0].login}
-                className="candidate-avatar"
+                className="avatar"
               />
             </div>
             <div className="card-content">
-              <h2>{candidates[0].name || candidates[0].login}</h2>
+              <h2 className="candidtae-name">
+                {candidates[0].name || candidates[0].login}
+              </h2>
               <p>
                 <strong>Username:</strong> {candidates[0].login}
               </p>

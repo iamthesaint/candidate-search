@@ -7,9 +7,10 @@ const SavedCandidates = () => {
   const [savedCandidates, setSavedCandidates] = useState<Candidate[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [sortCriteria, setSortCriteria] = useState('name');
-  const [sortDirection, setSortDirection] = useState('asc');
-  const [filterCriteria, setFilterCriteria] = useState<string>('all');
+  const [sortCriteria, setSortCriteria] = useState("name");
+  const [sortDirection, setSortDirection] = useState("asc");
+  const [filterCriteria, setFilterCriteria] = useState<string>("all");
+  const [filterValue, setFilterValue] = useState<string>("");
 
   useEffect(() => {
     // fetch the saved candidates from local storage
@@ -49,64 +50,81 @@ const SavedCandidates = () => {
 
   // fx to sort the saved candidates
   const sortSavedCandidates = (criteria: string) => {
-    const direction = sortCriteria === criteria && sortDirection === 'asc' ? 'desc' : 'asc';
+    const direction =
+      sortCriteria === criteria && sortDirection === "asc" ? "desc" : "asc";
     setSortCriteria(criteria);
     setSortDirection(direction);
 
     const sortedCandidates = [...savedCandidates].sort((a, b) => {
-      let valueA = '';
-      let valueB = '';
-  
-      if (criteria === 'name') {
-        valueA = (a.name || a.login || '').toLowerCase();
-        valueB = (b.name || b.login || '').toLowerCase();
+      let valueA = "";
+      let valueB = "";
+
+      if (criteria === "name") {
+        valueA = (a.name || a.login || "").toLowerCase();
+        valueB = (b.name || b.login || "").toLowerCase();
       } else {
-        valueA = (a[criteria] || '').toString().toLowerCase();
-        valueB = (b[criteria] || '').toString().toLowerCase();
+        valueA = (a[criteria] || "").toString().toLowerCase();
+        valueB = (b[criteria] || "").toString().toLowerCase();
       }
-  
-      if (valueA < valueB) return direction === 'asc' ? -1 : 1;
-      if (valueA > valueB) return direction === 'asc' ? 1 : -1;
+
+      if (valueA < valueB) return direction === "asc" ? -1 : 1;
+      if (valueA > valueB) return direction === "asc" ? 1 : -1;
       return 0;
     });
 
     setSavedCandidates(sortedCandidates);
   };
 
-    // fx to render the sort icon so the user knows it's an option
-    const renderSortIcon = (criteria: string) => {
-      if (sortCriteria === criteria) {
-        return sortDirection === 'asc' ? <FaSortAlphaUp /> : <FaSortAlphaDown />;
-      }
-      return null;
-    };
-
-  // fx to filter the saved candidates
-  const filterSavedCandidates = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setFilterCriteria(event.target.value);
+  // fx to render the sort icon so the user knows it's an option
+  const renderSortIcon = (criteria: string) => {
+    if (sortCriteria === criteria) {
+      return sortDirection === "asc" ? <FaSortAlphaUp /> : <FaSortAlphaDown />;
+    }
+    return null;
   };
 
-  const filteredCandidates = savedCandidates.filter((candidate) => {
-    if (filterCriteria === 'all') {
-      return true;
+  // fx to filter the saved candidates
+  const filterSavedCandidates = () => {
+    if (filterCriteria === "all") {
+      return savedCandidates;
     }
-    return candidate[filterCriteria] !== undefined && candidate[filterCriteria] !== '';
-  });
+
+    // filter by selected criteria and the user-input value
+    return savedCandidates.filter((candidate) => {
+      const candidateValue = (candidate[filterCriteria] || "").toLowerCase();
+      return candidateValue.includes(filterValue.toLowerCase());
+    });
+  };
+
+  const filteredCandidates = filterSavedCandidates();
 
   return (
-    <div>
+    <div className="container">
       <h1>Potential Candidates</h1>
       <div className="filter-container">
         <label htmlFor="filter">Filter by: </label>
-        <select id="filter" value={filterCriteria} onChange={filterSavedCandidates}>
+        <select
+          id="filter"
+          value={filterCriteria}
+          onChange={(e) => setFilterCriteria(e.target.value)}
+        >
           <option value="all">All</option>
           <option value="location">Location</option>
           <option value="company">Company</option>
         </select>
-      </div>
+      {(filterCriteria === "location" || filterCriteria === "company") && (
+        <input
+          type="text"
+          className="filter-input"
+          placeholder={`Enter ${filterCriteria}...`}
+          value={filterValue}
+          onChange={(e) => setFilterValue(e.target.value)}
+        />
+      )}
+      </div>  
 
       {loading ? (
-        <p>Loading...</p>
+        <h1 className="load">Loading...</h1>
       ) : error ? (
         <p>{error}</p>
       ) : filteredCandidates.length > 0 ? (
@@ -114,10 +132,25 @@ const SavedCandidates = () => {
           <thead>
             <tr>
               <th>Image</th>
-              <th className="sortable" onClick={() => sortSavedCandidates('name')}>Name/Login {renderSortIcon('name')}</th>
-              <th className="sortable" onClick={() => sortSavedCandidates('location')}>Location {renderSortIcon('location')}</th>
+              <th
+                className="sortable"
+                onClick={() => sortSavedCandidates("name")}
+              >
+                Name/Login {renderSortIcon("name")}
+              </th>
+              <th
+                className="sortable"
+                onClick={() => sortSavedCandidates("location")}
+              >
+                Location {renderSortIcon("location")}
+              </th>
               <th>Email</th>
-              <th className="sortable" onClick={() => sortSavedCandidates('company')}>Company {renderSortIcon('company')}</th>
+              <th
+                className="sortable"
+                onClick={() => sortSavedCandidates("company")}
+              >
+                Company {renderSortIcon("company")}
+              </th>
               <th>Bio</th>
               <th>Reject</th>
             </tr>
@@ -130,7 +163,11 @@ const SavedCandidates = () => {
                     className="table-avatar"
                     src={candidate.avatar_url}
                     alt={candidate.login}
-                    style={{ width: "100px", height: "100px", border: "1px solid #ccc" }}
+                    style={{
+                      width: "100px",
+                      height: "100px",
+                      border: "1px solid #ccc",
+                    }}
                   />
                 </td>
                 <td>
